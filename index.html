@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Suggestions Dashboard</title>
+    <title>Game Suggestions Dashboard | Master List</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -49,11 +50,7 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         
         .stats-bar {
             display: flex;
@@ -74,12 +71,14 @@
 
         .section-title {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2em;
+            font-size: 2.2em;
             margin: 40px 0 20px;
-            color: var(--text);
+            color: #fff;
             border-bottom: 2px solid var(--primary);
-            display: inline-block;
-            padding-right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 5px;
         }
         
         .grid { display: grid; gap: 15px; }
@@ -92,13 +91,12 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .suggestion-card:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--secondary);
-            transform: translateX(10px);
+            transform: translateX(8px);
         }
 
         .card-main {
@@ -111,13 +109,13 @@
             font-family: 'Rajdhani', sans-serif;
             font-size: 1.3em;
             font-weight: 700;
+            color: #fff;
         }
 
         .details {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease, margin-top 0.3s ease;
-            font-size: 0.95em;
+            transition: max-height 0.4s ease;
         }
 
         .suggestion-card.active .details {
@@ -132,17 +130,21 @@
             color: var(--secondary); 
             font-weight: bold; 
             text-transform: uppercase; 
-            font-size: 0.8em;
+            font-size: 0.75em;
+            margin-bottom: 4px;
             display: block;
-            margin-bottom: 5px;
         }
 
-        .help-text { color: #a8a8b3; }
-        .benefit-text { color: #82ffad; font-style: italic; }
+        .help-text { color: #ccc; font-size: 0.95em; }
+        .benefit-text { color: #00ff88; font-size: 0.95em; font-weight: 500; }
 
-        @media (max-width: 600px) {
-            .header h1 { font-size: 2em; }
-            .stats-bar { flex-direction: column; align-items: center; }
+        .category-tag {
+            font-size: 0.6em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: var(--primary);
+            vertical-align: middle;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -151,58 +153,60 @@
 <div class="container">
     <header class="header">
         <h1>Game Suggestions</h1>
-        <p class="instruction">Click on an option to view details</p>
+        <p class="instruction">Click on a card to expand details</p>
         
         <div class="stats-bar">
-            <div class="stat-badge">QoL: <span id="qol-count">0</span></div>
-            <div class="stat-badge">Features: <span id="feat-count">0</span></div>
+            <div class="stat-badge">🛠️ Quality of Life: <span id="qol-count">0</span></div>
+            <div class="stat-badge">🚀 Features: <span id="feat-count">0</span></div>
         </div>
     </header>
 
-    <section id="qol-section">
+    <section>
         <h2 class="section-title">Quality of Life</h2>
         <div class="grid" id="qol-grid"></div>
     </section>
 
-    <section id="features-section">
-        <h2 class="section-title">Features</h2>
+    <section>
+        <h2 class="section-title">New Features</h2>
         <div class="grid" id="feat-grid"></div>
     </section>
 </div>
 
 <script>
     const qolData = [
-        { title: "Auto-Skip Dialogues", desc: "Automatically skip repetitive NPC dialogues when starting missions and trials.", help: "Saves player time and reduces tedium during repetitive farming." },
-        { title: "Map Star Progress Display", desc: "Show the number of stars unlocked or completed in each map.", help: "Makes it easier to track global progress without entering each map individually." },
-        { title: "Missing Sound Effects", desc: "Add sound effects for talent spins, NPC kills, item drops, and auto-collect.", help: "Enhances sensory feedback and satisfaction when gaining items." },
-        { title: "Advanced Inventory Filters", desc: "Filter by strength, level, rarity, DPS, and other attributes.", help: "Quick organization for large inventories, essential for advanced players." },
-        { title: "Search by Passive", desc: "Search bar to find characters by specific passive abilities.", help: "Speeds up strategic team building." },
-        { title: "Confirmation for High-Rarity Rolls", desc: "Warning confirmation before rerolling Mythic or Legendary passives.", help: "Prevents accidental loss of expensive resources or rare characters." },
-        { title: "Server Version Display", desc: "Display server version and fix list on the main screen.", help: "Keeps the player informed about patches and stability." },
-        { title: "DPS Leaderboard Reset", desc: "Automatic leaderboard reset after balance changes.", help: "Ensures the ranking remains fair after unit buffs or nerfs." },
-        { title: "Damage Test Dummy", desc: "Practice dummy to test DPS, skills, and builds freely.", help: "Allows damage optimization without wasting dungeon entries or resources." },
-        { title: "Drop History Log", desc: "Recent drop history during fast farming or AFK gameplay.", help: "Allows players to see what was earned while they weren't looking at the screen." },
-        { title: "AFK Indicator", desc: "Visual indicator for AFK players in co-op content.", help: "Improves team coordination and avoids frustration in trials/dungeons." },
-        { title: "FPS Display Option", desc: "Settings option to show a frames-per-second counter.", help: "Helps the player monitor performance and adjust graphics accordingly." },
-        { title: "Reduced Loading Times", desc: "Technical optimization of map and asset loading.", help: "Improves general experience and retains players with low-end PCs/Phones." }
+        { title: "Auto-Skip Dialogues", desc: "Implement an option to automatically skip repetitive NPC dialogues when starting missions, entering trials, or interacting with NPCs.", help: "Reduces downtime and friction for veteran players who have already read the lore, speeding up the grind." },
+        { title: "Display Real Spin Chances", desc: "Display the real spin chances in the spin system, already factoring in the player’s active Lucky bonuses.", help: "Provides transparency and helps players decide when it's optimal to spend their resources based on their actual luck stats." },
+        { title: "Map Star Progress Display", desc: "Display the number of stars unlocked or completed in each map, allowing players to easily track overall progression.", help: "Gives a clear visual goal for completionists and helps identify which maps still offer rewards." },
+        { title: "Missing Sound Effects", desc: "Add missing sound effects for key gameplay actions such as talent spins, NPC kills, item drops, and the auto-click feature.", help: "Increases immersion and provides vital audio feedback, making the gameplay feel more polished and responsive." },
+        { title: "Protection for Mythic & Shiny Characters", desc: "Add options to prevent deleting or auto-selling Mythic or Shiny characters to avoid accidental losses.", help: "Crucial for player retention; losing a rare unit by mistake is a major reason for players quitting the game." },
+        { title: "Advanced Inventory Filters", desc: "Allow players to filter characters by strength, level, rarity, DPS, and other attributes.", help: "Essential for endgame players with hundreds of units; saves massive amounts of time during team management." },
+        { title: "Search by Passive", desc: "Extend the inventory search bar to allow searching characters by their passive abilities.", help: "Allows for rapid strategic team building, especially when players need specific buffs for difficult trials." },
+        { title: "Confirmation for High-Rarity Rolls", desc: "Add confirmation warnings before rerolling Mythic or Legendary passives, as well as A, S, and SS talents.", help: "Prevents high-value resource waste due to misclicks, ensuring rare rolls are kept safe." },
+        { title: "Server Version Display", desc: "Display the current server version on the game screen and clearly show what was fixed or changed in each version.", help: "Reduces support tickets and confusion by keeping players updated on bug fixes and balance changes in real-time." },
+        { title: "DPS Leaderboard Reset", desc: "Automatically reset the DPS leaderboard after balance changes so all players must register again, ensuring fair competition.", help: "Ensures the leaderboard reflects the current meta and prevents 'legacy' scores from being unbeatable after nerfs." },
+        { title: "Damage Test Dummy", desc: "Add a training NPC or dummy where players can freely test DPS, skills, passives, and builds without consuming resources.", help: "Promotes theorycrafting and helps players understand their unit's potential without the pressure of a real match." },
+        { title: "Drop History Log", desc: "Add a short log displaying recent drops, helping players track loot during fast farming or AFK gameplay.", help: "Allows AFK grinders to verify their earnings and gives a satisfying sense of loot progression." },
+        { title: "AFK Indicator", desc: "Clearly indicate when a player is AFK, improving clarity in co-op, dungeons, and trials.", help: "Reduces toxicity and confusion in team play by letting others know why a teammate isn't moving." },
+        { title: "FPS Display Option", desc: "Toggleable on-screen counter to monitor frames per second.", help: "Allows players to optimize their own settings for the best possible performance." },
+        { title: "Reduced Loading Times", desc: "Optimization of map assets and data structure to speed up transitions.", help: "Significantly improves the flow of gameplay and prevents player drop-off during long loading screens." }
     ];
 
     const featData = [
-        { title: "Guild System", desc: "Guild system with unique bosses and clan leaderboards.", help: "Builds community and encourages long-term teamwork." },
-        { title: "Weekend Event Voting", desc: "In-game voting to choose the weekend event (Luck, Drop, etc).", help: "Increases engagement and makes the community feel heard." },
-        { title: "Accessory Forging System", desc: "Forge accessories using parts from towers, dungeons, or trials.", help: "Gives utility to extra items and creates an equipment progression system." },
-        { title: "Daily Missions System", desc: "Daily missions with difficulty scaling based on player level.", help: "Encourages daily logins and offers constant rewards." },
-        { title: "Top Global Chat Indicator", desc: "Global rank badge next to the player's name in chat.", help: "Provides prestige to top players and encourages competition." },
-        { title: "Auto Attack Range Upgrade", desc: "Attack range upgrade available in the Trial Shop.", help: "Makes farming more efficient and gives value to Trial currency." },
-        { title: "Sprint Upgrade (Trial Only)", desc: "Movement speed increase exclusive to Trial maps.", help: "Faster gameplay dynamics in time-limited content." },
-        { title: "Inventory Expansion by Map Completion", desc: "Earn inventory slots by completing character collections for a map.", help: "Rewards collectors and solves inventory space issues." },
-        { title: "Free Mounts System", desc: "Mount system obtained through achievements or rare drops.", help: "Alternative for F2P players who cannot buy premium items." },
-        { title: "Private Server Kick Menu", desc: "Menu for private server owners to remove other players.", help: "Total control over who participates in private sessions." },
-        { title: "Trial & Dungeon Counter", desc: "Counter for how many times each content was completed + Leaderboard.", help: "Generates 'grind' competition and shows player dedication." },
-        { title: "Unit Comparison Tool", desc: "Tool to compare stats of 2 or more characters side-by-side.", help: "Helps in deciding which character to invest resources in." },
-        { title: "Reconnection Position Save", desc: "Save exact position and return to the same spot upon reconnecting (Anti-AFK).", help: "Prevents loss of progress or walking time after a connection drop." },
-        { title: "Enemy Kill Counter", desc: "Detailed kill counter for every enemy type across all islands.", help: "Provides a sense of achievement and tracking for completionists." },
-        { title: "Character Preview", desc: "Option to click in inventory and view the 3D model/art of the character.", help: "Improves game aesthetics and allows appreciation of unit details." }
+        { title: "Guild System", desc: "Add a guild system with guild bosses and a guild leaderboard to encourage teamwork, cooperation, and long-term progression.", help: "Creates strong social bonds and 'infinite' endgame content through group-based competition." },
+        { title: "Weekend Event Voting", desc: "Implement a voting system that allows players to choose which event will be active during the weekend (Lucky, Damage, Drop, Yen, EXP).", help: "Empowers the community and ensures events are always relevant to what the players actually need at that moment." },
+        { title: "Accessory Forging System", desc: "Obtain accessory parts from towers/dungeons and forge them through an interactive, puzzle-based system inspired by The Forge.", help: "Adds a rewarding crafting layer to the game, giving more value to loot gathered from difficult content." },
+        { title: "Daily Missions System", desc: "Add daily missions with difficulty scaling based on the player’s rank, ensuring fair challenges and daily engagement.", help: "Provides a consistent reason to log in every day and rewards consistent effort regardless of player level." },
+        { title: "Top Global Chat Indicator", desc: "Display a Top Global player's rank and category next to their name in the public chat.", help: "Increases the prestige of reaching the top and incentivizes players to grind for leaderboard spots." },
+        { title: "Auto Attack Range Upgrade", desc: "Increase auto-attack range through upgrades purchased in the Trial Shop.", help: "Gives a tangible, permanent power-up that rewards players for participating in Trials." },
+        { title: "Sprint Upgrade (Trial Only)", desc: "Purchase a sprint upgrade in the Trial Shop for additional movement speed inside trials.", help: "Balances the difficulty of large trial maps by giving players a way to navigate faster." },
+        { title: "Inventory Expansion by Map Completion", desc: "Grant 10–20 slots after collecting all characters from a map (Common to Mythic, excluding Celestial).", help: "Rewards completionism and naturally scales storage space as the player progresses through new islands." },
+        { title: "Free Mounts System", desc: "Add free mounts obtainable through gameplay achievements or rare drops.", help: "Provides non-paying players with mobility options, making the game feel more fair and accessible (F2P Friendly)." },
+        { title: "Private Server Kick Menu", desc: "A dedicated menu for server owners to manage players. Kicked players can rejoin, assisting grinders and streamers.", help: "Essential for content creators and streamers to manage their community and maintain productive grinding sessions." },
+        { title: "Trial & Dungeon Tracker", desc: "Persistent counter for completed runs with a dedicated leaderboard.", help: "Encourages replayability and allows players to show off their dedication to specific game modes." },
+        { title: "Unit Comparison Tool", desc: "UI tool to compare base stats, scalings, and abilities of multiple units simultaneously.", help: "Simplifies complex decision-making, allowing players to choose the best unit for their specific build." },
+        { title: "Position Save (Anti-AFK)", desc: "Saves player coordinates to restore their exact location upon reconnection.", help: "Saves time and frustration, especially for players with unstable connections who are farming specific spots." },
+        { title: "Enemy Kill Counter", desc: "Detailed tracker for every enemy type across all islands.", help: "Provides a long-term 'bestiary' goal for completionists to fill out." },
+        { title: "Character Model Preview", desc: "Button in the inventory to view a full-screen, rotating model of the character.", help: "Allows players to appreciate the game's art and skins, increasing the value of character collection." }
     ];
 
     function renderCards(data, containerId) {
@@ -213,7 +217,7 @@
             card.innerHTML = `
                 <div class="card-main">
                     <span class="card-title">${item.title}</span>
-                    <span style="color:var(--primary)">+</span>
+                    <span style="color:var(--secondary); font-weight:bold;">+</span>
                 </div>
                 <div class="details">
                     <div class="info-block">
@@ -221,7 +225,7 @@
                         <p class="help-text">${item.desc}</p>
                     </div>
                     <div class="info-block">
-                        <span class="info-label">How it helps</span>
+                        <span class="info-label">Why it helps</span>
                         <p class="benefit-text">${item.help}</p>
                     </div>
                 </div>
