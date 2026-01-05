@@ -1,373 +1,241 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Suggestions</title>
+    <title>Game Suggestions Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #8257e5;
+            --secondary: #00d2ff;
+            --accent: #ff0072;
+            --bg: #0b090f;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text: #e1e1e6;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Roboto', sans-serif;
+            background: radial-gradient(circle at top right, #1a1625, #0b090f);
+            color: var(--text);
             padding: 40px 20px;
-            color: #333;
+            line-height: 1.6;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+        .container { max-width: 1000px; margin: 0 auto; }
         
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
+        .header { text-align: center; margin-bottom: 50px; }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5em;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        .section {
-            padding: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.8em;
-            color: #667eea;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        .suggestion-card {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .suggestion-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .card-number {
-            background: #667eea;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .instruction {
+            color: var(--secondary);
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
             font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
         
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-badge {
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .stat-badge span { color: var(--secondary); font-weight: bold; }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2em;
+            margin: 40px 0 20px;
+            color: var(--text);
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+            padding-right: 50px;
+        }
+        
+        .grid { display: grid; gap: 15px; }
+
+        .suggestion-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .suggestion-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--secondary);
+            transform: translateX(10px);
+        }
+
+        .card-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
         .card-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #2c3e50;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
         }
-        
-        .card-description {
-            color: #555;
-            line-height: 1.6;
-            margin-left: 45px;
+
+        .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, margin-top 0.3s ease;
+            font-size: 0.95em;
         }
-        
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-            }
-            .suggestion-card {
-                page-break-inside: avoid;
-            }
+
+        .suggestion-card.active .details {
+            max-height: 500px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
-        
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            .section {
-                padding: 20px;
-            }
-            .section-title {
-                font-size: 1.4em;
-            }
+
+        .info-block { margin-bottom: 15px; }
+        .info-label { 
+            color: var(--secondary); 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            font-size: 0.8em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .help-text { color: #a8a8b3; }
+        .benefit-text { color: #82ffad; font-style: italic; }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2em; }
+            .stats-bar { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎮 Game Suggestions</h1>
-            <p>Quality of Life Improvements & New Features</p>
-        </div>
+
+<div class="container">
+    <header class="header">
+        <h1>Game Suggestions</h1>
+        <p class="instruction">Click on an option to view details</p>
         
-        <div class="section">
-            <h2 class="section-title">Quality of Life (QoL)</h2>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">1</div>
-                    <div class="card-title">Auto-Skip Dialogues</div>
-                </div>
-                <div class="card-description">
-                    Automatically skip repetitive NPC dialogues when starting missions, entering trials, or interacting with frequently visited NPCs.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">2</div>
-                    <div class="card-title">Display Real Spin Chances</div>
-                </div>
-                <div class="card-description">
-                    Display real spin chances with the player's active Lucky bonuses already applied to show accurate probabilities.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">3</div>
-                    <div class="card-title">Map Star Progress Display</div>
-                </div>
-                <div class="card-description">
-                    Show the number of stars unlocked or completed in each map to track overall progress more easily.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">4</div>
-                    <div class="card-title">Missing Sound Effects</div>
-                </div>
-                <div class="card-description">
-                    Add missing sound effects for talent spins, NPC kills, item drops, and the auto-collect feature to enhance game feedback.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">5</div>
-                    <div class="card-title">Protection for Mythic & Shiny Characters</div>
-                </div>
-                <div class="card-description">
-                    Prevent accidental deletion or auto-selling of Mythic or Shiny characters with a protection system.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">6</div>
-                    <div class="card-title">Advanced Inventory Filters</div>
-                </div>
-                <div class="card-description">
-                    Filter characters by strength, level, rarity, DPS, and other attributes for better inventory management.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">7</div>
-                    <div class="card-title">Search by Passive</div>
-                </div>
-                <div class="card-description">
-                    Allow players to search characters by their passive abilities in the inventory for easier team building.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">8</div>
-                    <div class="card-title">Confirmation for High-Rarity Rolls</div>
-                </div>
-                <div class="card-description">
-                    Show confirmation warnings before rerolling Mythic or Legendary passives and talents to prevent costly mistakes.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">9</div>
-                    <div class="card-title">Server Version Display</div>
-                </div>
-                <div class="card-description">
-                    Display the current server version on the game screen and list fixes for each version in patch notes.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">10</div>
-                    <div class="card-title">DPS Leaderboard Reset After Balance Changes</div>
-                </div>
-                <div class="card-description">
-                    Automatically reset the DPS leaderboard after balance changes to ensure fair competition with updated mechanics.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">11</div>
-                    <div class="card-title">Damage Test Dummy</div>
-                </div>
-                <div class="card-description">
-                    Add a training dummy where players can freely test DPS, skills, passives, and builds without wasting resources.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">12</div>
-                    <div class="card-title">Drop History Log</div>
-                </div>
-                <div class="card-description">
-                    Display a short history of recent drops during fast farming or AFK gameplay so players don't miss important items.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">13</div>
-                    <div class="card-title">AFK Indicator</div>
-                </div>
-                <div class="card-description">
-                    Clearly indicate when a player is AFK in co-op content, trials, and dungeons to improve team coordination.
-                </div>
-            </div>
+        <div class="stats-bar">
+            <div class="stat-badge">QoL: <span id="qol-count">0</span></div>
+            <div class="stat-badge">Features: <span id="feat-count">0</span></div>
         </div>
-        
-        <div class="section">
-            <h2 class="section-title">Features</h2>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">1</div>
-                    <div class="card-title">Guild System</div>
+    </header>
+
+    <section id="qol-section">
+        <h2 class="section-title">Quality of Life</h2>
+        <div class="grid" id="qol-grid"></div>
+    </section>
+
+    <section id="features-section">
+        <h2 class="section-title">Features</h2>
+        <div class="grid" id="feat-grid"></div>
+    </section>
+</div>
+
+<script>
+    const qolData = [
+        { title: "Auto-Skip Dialogues", desc: "Automatically skip repetitive NPC dialogues when starting missions and trials.", help: "Saves player time and reduces tedium during repetitive farming." },
+        { title: "Map Star Progress Display", desc: "Show the number of stars unlocked or completed in each map.", help: "Makes it easier to track global progress without entering each map individually." },
+        { title: "Missing Sound Effects", desc: "Add sound effects for talent spins, NPC kills, item drops, and auto-collect.", help: "Enhances sensory feedback and satisfaction when gaining items." },
+        { title: "Advanced Inventory Filters", desc: "Filter by strength, level, rarity, DPS, and other attributes.", help: "Quick organization for large inventories, essential for advanced players." },
+        { title: "Search by Passive", desc: "Search bar to find characters by specific passive abilities.", help: "Speeds up strategic team building." },
+        { title: "Confirmation for High-Rarity Rolls", desc: "Warning confirmation before rerolling Mythic or Legendary passives.", help: "Prevents accidental loss of expensive resources or rare characters." },
+        { title: "Server Version Display", desc: "Display server version and fix list on the main screen.", help: "Keeps the player informed about patches and stability." },
+        { title: "DPS Leaderboard Reset", desc: "Automatic leaderboard reset after balance changes.", help: "Ensures the ranking remains fair after unit buffs or nerfs." },
+        { title: "Damage Test Dummy", desc: "Practice dummy to test DPS, skills, and builds freely.", help: "Allows damage optimization without wasting dungeon entries or resources." },
+        { title: "Drop History Log", desc: "Recent drop history during fast farming or AFK gameplay.", help: "Allows players to see what was earned while they weren't looking at the screen." },
+        { title: "AFK Indicator", desc: "Visual indicator for AFK players in co-op content.", help: "Improves team coordination and avoids frustration in trials/dungeons." },
+        { title: "FPS Display Option", desc: "Settings option to show a frames-per-second counter.", help: "Helps the player monitor performance and adjust graphics accordingly." },
+        { title: "Reduced Loading Times", desc: "Technical optimization of map and asset loading.", help: "Improves general experience and retains players with low-end PCs/Phones." }
+    ];
+
+    const featData = [
+        { title: "Guild System", desc: "Guild system with unique bosses and clan leaderboards.", help: "Builds community and encourages long-term teamwork." },
+        { title: "Weekend Event Voting", desc: "In-game voting to choose the weekend event (Luck, Drop, etc).", help: "Increases engagement and makes the community feel heard." },
+        { title: "Accessory Forging System", desc: "Forge accessories using parts from towers, dungeons, or trials.", help: "Gives utility to extra items and creates an equipment progression system." },
+        { title: "Daily Missions System", desc: "Daily missions with difficulty scaling based on player level.", help: "Encourages daily logins and offers constant rewards." },
+        { title: "Top Global Chat Indicator", desc: "Global rank badge next to the player's name in chat.", help: "Provides prestige to top players and encourages competition." },
+        { title: "Auto Attack Range Upgrade", desc: "Attack range upgrade available in the Trial Shop.", help: "Makes farming more efficient and gives value to Trial currency." },
+        { title: "Sprint Upgrade (Trial Only)", desc: "Movement speed increase exclusive to Trial maps.", help: "Faster gameplay dynamics in time-limited content." },
+        { title: "Inventory Expansion by Map Completion", desc: "Earn inventory slots by completing character collections for a map.", help: "Rewards collectors and solves inventory space issues." },
+        { title: "Free Mounts System", desc: "Mount system obtained through achievements or rare drops.", help: "Alternative for F2P players who cannot buy premium items." },
+        { title: "Private Server Kick Menu", desc: "Menu for private server owners to remove other players.", help: "Total control over who participates in private sessions." },
+        { title: "Trial & Dungeon Counter", desc: "Counter for how many times each content was completed + Leaderboard.", help: "Generates 'grind' competition and shows player dedication." },
+        { title: "Unit Comparison Tool", desc: "Tool to compare stats of 2 or more characters side-by-side.", help: "Helps in deciding which character to invest resources in." },
+        { title: "Reconnection Position Save", desc: "Save exact position and return to the same spot upon reconnecting (Anti-AFK).", help: "Prevents loss of progress or walking time after a connection drop." },
+        { title: "Enemy Kill Counter", desc: "Detailed kill counter for every enemy type across all islands.", help: "Provides a sense of achievement and tracking for completionists." },
+        { title: "Character Preview", desc: "Option to click in inventory and view the 3D model/art of the character.", help: "Improves game aesthetics and allows appreciation of unit details." }
+    ];
+
+    function renderCards(data, containerId) {
+        const container = document.getElementById(containerId);
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'suggestion-card';
+            card.innerHTML = `
+                <div class="card-main">
+                    <span class="card-title">${item.title}</span>
+                    <span style="color:var(--primary)">+</span>
                 </div>
-                <div class="card-description">
-                    Add guilds with guild bosses and a guild leaderboard to encourage teamwork and create a stronger community.
+                <div class="details">
+                    <div class="info-block">
+                        <span class="info-label">Description</span>
+                        <p class="help-text">${item.desc}</p>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">How it helps</span>
+                        <p class="benefit-text">${item.help}</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">2</div>
-                    <div class="card-title">Weekend Event Voting</div>
-                </div>
-                <div class="card-description">
-                    Allow players to vote for which event will be active during the weekend (Lucky, Drop Rate, EXP, etc.).
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">3</div>
-                    <div class="card-title">Accessory Forging System</div>
-                </div>
-                <div class="card-description">
-                    Forge accessories using parts from towers, dungeons, or trials through a puzzle-solving or crafting mechanic.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">4</div>
-                    <div class="card-title">Daily Missions System</div>
-                </div>
-                <div class="card-description">
-                    Add daily missions with difficulty scaling based on player progression to encourage regular engagement.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">5</div>
-                    <div class="card-title">Top Global Chat Indicator</div>
-                </div>
-                <div class="card-description">
-                    Display a Top Global player's leaderboard rank and category next to their name in chat for recognition.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">6</div>
-                    <div class="card-title">Auto Attack Range Upgrade</div>
-                </div>
-                <div class="card-description">
-                    Increase auto-attack range through upgrades available in the Trial Shop for improved farming efficiency.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">7</div>
-                    <div class="card-title">Sprint Upgrade (Trial Only)</div>
-                </div>
-                <div class="card-description">
-                    Purchase a sprint upgrade in the Trial Shop that grants extra movement speed only during trials.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">8</div>
-                    <div class="card-title">Inventory Expansion by Map Completion</div>
-                </div>
-                <div class="card-description">
-                    Grant additional inventory slots after collecting all characters from a map (Common, Rare, Epic, etc.) as a completion reward.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">9</div>
-                    <div class="card-title">Free Mounts System</div>
-                </div>
-                <div class="card-description">
-                    Add free mounts obtainable through gameplay, since most mounts are currently premium-only content.
-                </div>
-            </div>
-            
-            <div class="suggestion-card">
-                <div class="card-header">
-                    <div class="card-number">10</div>
-                    <div class="card-title">Private Server Kick Menu</div>
-                </div>
-                <div class="card-description">
-                    Add a Kick Menu for private server owners to remove players from the server, helping maintain control over their private sessions.
-                </div>
-            </div>
-        </div>
-    </div>
+            `;
+            card.onclick = () => card.classList.toggle('active');
+            container.appendChild(card);
+        });
+    }
+
+    renderCards(qolData, 'qol-grid');
+    renderCards(featData, 'feat-grid');
+    document.getElementById('qol-count').innerText = qolData.length;
+    document.getElementById('feat-count').innerText = featData.length;
+</script>
+
 </body>
-                  </html>
+</html>
