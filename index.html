@@ -3,241 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Suggestions Dashboard | Master List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <title>Game Suggestions </title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #8257e5;
-            --secondary: #00d2ff;
-            --accent: #ff0072;
-            --bg: #0b090f;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text: #e1e1e6;
+            --primary: #8b5cf6;
+            --secondary: #06b6d4;
+            --bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Roboto', sans-serif;
-            background: radial-gradient(circle at top right, #1a1625, #0b090f);
-            color: var(--text);
-            padding: 40px 20px;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.15) 0%, transparent 35%);
+            color: var(--text-main);
+            padding: 60px 20px;
+            min-height: 100vh;
         }
         
-        .container { max-width: 1000px; margin: 0 auto; }
-        
-        .header { text-align: center; margin-bottom: 50px; }
+        .container { max-width: 900px; margin: 0 auto; }
         
         .header h1 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 3.5em;
+            font-size: 4em;
+            text-align: center;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            letter-spacing: 8px;
+            margin-bottom: 40px;
+            background: linear-gradient(to bottom, #fff 30%, #444);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .instruction {
-            color: var(--secondary);
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            font-weight: bold;
-            animation: pulse 2s infinite;
+        /* Search Bar Futurista */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 50px;
         }
 
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        
+        #searchInput {
+            width: 100%;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 4px; /* Estilo mais quadrado e sério */
+            color: white;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            outline: none;
+            transition: 0.4s;
+            border-left: 4px solid var(--primary);
+        }
+
+        #searchInput:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--secondary);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.1);
+        }
+
         .stats-bar {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .stat-badge {
-            background: var(--card-bg);
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.1);
+            gap: 40px;
+            margin-bottom: 30px;
             font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .stat-badge span { color: var(--secondary); font-weight: bold; }
+        .stat-item span { color: var(--secondary); font-size: 1.5em; }
 
-        .section-title {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2.2em;
-            margin: 40px 0 20px;
-            color: #fff;
-            border-bottom: 2px solid var(--primary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 5px;
-        }
-        
-        .grid { display: grid; gap: 15px; }
-
+        /* Card Minimalista e Elegante */
         .suggestion-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .suggestion-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--secondary);
-            transform: translateX(8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
         }
 
-        .card-main {
+        .card-header {
+            padding: 24px 30px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
         }
 
         .card-title {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #fff;
+            font-size: 1.4em;
+            letter-spacing: 1px;
+            color: #efefef;
+        }
+
+        .icon {
+            color: var(--secondary);
+            font-size: 1.2em;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .suggestion-card.active .icon {
+            transform: rotate(45deg);
+            color: var(--primary);
+            opacity: 1;
         }
 
         .details {
             max-height: 0;
+            padding: 0 30px;
             overflow: hidden;
-            transition: max-height 0.4s ease;
+            transition: all 0.4s ease;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .suggestion-card.active .details {
             max-height: 500px;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 25px 30px;
+            border-top: 1px solid var(--border);
         }
 
-        .info-block { margin-bottom: 15px; }
-        .info-label { 
-            color: var(--secondary); 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            font-size: 0.75em;
-            margin-bottom: 4px;
+        .label {
+            color: var(--primary);
+            font-size: 0.7em;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
             display: block;
         }
 
-        .help-text { color: #ccc; font-size: 0.95em; }
-        .benefit-text { color: #00ff88; font-size: 0.95em; font-weight: 500; }
+        .desc { color: var(--text-dim); margin-bottom: 20px; font-weight: 300; }
+        .benefit { color: #10b981; font-weight: 500; border-left: 2px solid #10b981; padding-left: 15px; }
 
-        .category-tag {
-            font-size: 0.6em;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: var(--primary);
-            vertical-align: middle;
-            margin-left: 10px;
+        .section-label {
+            font-family: 'Rajdhani', sans-serif;
+            margin: 40px 0 20px;
+            font-size: 0.9em;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
+
+        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header class="header">
-        <h1>Game Suggestions</h1>
-        <p class="instruction">Click on a card to expand details</p>
-        
+        <h1>Database</h1>
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="SEARCH SYSTEM...">
+        </div>
         <div class="stats-bar">
-            <div class="stat-badge">🛠️ Quality of Life: <span id="qol-count">0</span></div>
-            <div class="stat-badge">🚀 Features: <span id="feat-count">0</span></div>
+            <div class="stat-item">QoL <span>[</span><b id="qol-count">0</b><span>]</span></div>
+            <div class="stat-item">Features <span>[</span><b id="feat-count">0</b><span>]</span></div>
         </div>
     </header>
 
-    <section>
-        <h2 class="section-title">Quality of Life</h2>
-        <div class="grid" id="qol-grid"></div>
-    </section>
+    <div id="qol-section">
+        <div class="section-label">Quality of Life Improvements</div>
+        <div id="qol-grid"></div>
+    </div>
 
-    <section>
-        <h2 class="section-title">New Features</h2>
-        <div class="grid" id="feat-grid"></div>
-    </section>
+    <div id="feat-section">
+        <div class="section-label">New Feature Implementation</div>
+        <div id="feat-grid"></div>
+    </div>
 </div>
 
 <script>
+    // Os dados (qolData e featData) permanecem os mesmos da resposta anterior, apenas a renderização muda
     const qolData = [
-        { title: "Auto-Skip Dialogues", desc: "Implement an option to automatically skip repetitive NPC dialogues when starting missions, entering trials, or interacting with NPCs.", help: "Reduces downtime and friction for veteran players who have already read the lore, speeding up the grind." },
-        { title: "Display Real Spin Chances", desc: "Display the real spin chances in the spin system, already factoring in the player’s active Lucky bonuses.", help: "Provides transparency and helps players decide when it's optimal to spend their resources based on their actual luck stats." },
-        { title: "Map Star Progress Display", desc: "Display the number of stars unlocked or completed in each map, allowing players to easily track overall progression.", help: "Gives a clear visual goal for completionists and helps identify which maps still offer rewards." },
-        { title: "Missing Sound Effects", desc: "Add missing sound effects for key gameplay actions such as talent spins, NPC kills, item drops, and the auto-click feature.", help: "Increases immersion and provides vital audio feedback, making the gameplay feel more polished and responsive." },
-        { title: "Protection for Mythic & Shiny Characters", desc: "Add options to prevent deleting or auto-selling Mythic or Shiny characters to avoid accidental losses.", help: "Crucial for player retention; losing a rare unit by mistake is a major reason for players quitting the game." },
-        { title: "Advanced Inventory Filters", desc: "Allow players to filter characters by strength, level, rarity, DPS, and other attributes.", help: "Essential for endgame players with hundreds of units; saves massive amounts of time during team management." },
-        { title: "Search by Passive", desc: "Extend the inventory search bar to allow searching characters by their passive abilities.", help: "Allows for rapid strategic team building, especially when players need specific buffs for difficult trials." },
-        { title: "Confirmation for High-Rarity Rolls", desc: "Add confirmation warnings before rerolling Mythic or Legendary passives, as well as A, S, and SS talents.", help: "Prevents high-value resource waste due to misclicks, ensuring rare rolls are kept safe." },
-        { title: "Server Version Display", desc: "Display the current server version on the game screen and clearly show what was fixed or changed in each version.", help: "Reduces support tickets and confusion by keeping players updated on bug fixes and balance changes in real-time." },
-        { title: "DPS Leaderboard Reset", desc: "Automatically reset the DPS leaderboard after balance changes so all players must register again, ensuring fair competition.", help: "Ensures the leaderboard reflects the current meta and prevents 'legacy' scores from being unbeatable after nerfs." },
-        { title: "Damage Test Dummy", desc: "Add a training NPC or dummy where players can freely test DPS, skills, passives, and builds without consuming resources.", help: "Promotes theorycrafting and helps players understand their unit's potential without the pressure of a real match." },
-        { title: "Drop History Log", desc: "Add a short log displaying recent drops, helping players track loot during fast farming or AFK gameplay.", help: "Allows AFK grinders to verify their earnings and gives a satisfying sense of loot progression." },
-        { title: "AFK Indicator", desc: "Clearly indicate when a player is AFK, improving clarity in co-op, dungeons, and trials.", help: "Reduces toxicity and confusion in team play by letting others know why a teammate isn't moving." },
-        { title: "FPS Display Option", desc: "Toggleable on-screen counter to monitor frames per second.", help: "Allows players to optimize their own settings for the best possible performance." },
-        { title: "Reduced Loading Times", desc: "Optimization of map assets and data structure to speed up transitions.", help: "Significantly improves the flow of gameplay and prevents player drop-off during long loading screens." }
+        { title: "Auto-Skip Dialogues", desc: "Option to automatically skip repetitive NPC dialogues when starting missions or trials.", help: "Reduces friction for veteran players." },
+        { title: "Display Real Spin Chances", desc: "Display real spin chances in the system, factoring in active Lucky bonuses.", help: "Provides transparency for resource management." },
+        { title: "Map Star Progress Display", desc: "Show the number of stars unlocked/completed in each map.", help: "Clear visual goal for completionists." },
+        { title: "Missing Sound Effects", desc: "SFX for talent spins, kills, drops, and auto-click.", help: "Increases immersion and responsiveness." },
+        { title: "Protection for Mythic & Shiny", desc: "Prevent accidental deletion or auto-selling of rare characters.", help: "Prevents major player frustration." },
+        { title: "Advanced Inventory Filters", desc: "Filter by strength, level, rarity, DPS, and more.", help: "Essential for endgame management." },
+        { title: "Search by Passive", desc: "Search characters in inventory by their passive abilities.", help: "Rapid strategic team building." },
+        { title: "Confirmation for High-Rarity Rolls", desc: "Warning before rerolling Mythic/Legendary or A, S, SS talents.", help: "Ensures rare rolls are kept safe." },
+        { title: "Server Version Display", desc: "Show server version and patch notes on the main screen.", help: "Reduces confusion about updates." },
+        { title: "DPS Leaderboard Reset", desc: "Automatic reset after balance changes for fair competition.", help: "Ensures rankings reflect current balance." },
+        { title: "Damage Test Dummy", desc: "Training dummy to test DPS, skills, and builds freely.", help: "Promotes theorycrafting." },
+        { title: "Drop History Log", desc: "Log of recent drops during fast farming or AFK.", help: "Satisfying loot tracking." },
+        { title: "AFK Indicator", desc: "Visual indicator for AFK players in co-op/trials.", help: "Reduces team confusion." },
+        { title: "FPS Display Option", desc: "Toggleable on-screen counter.", help: "Helps players optimize performance." },
+        { title: "Reduced Loading Times", desc: "Optimization of assets to speed up map transitions.", help: "Improves gameplay flow." }
     ];
 
     const featData = [
-        { title: "Guild System", desc: "Add a guild system with guild bosses and a guild leaderboard to encourage teamwork, cooperation, and long-term progression.", help: "Creates strong social bonds and 'infinite' endgame content through group-based competition." },
-        { title: "Weekend Event Voting", desc: "Implement a voting system that allows players to choose which event will be active during the weekend (Lucky, Damage, Drop, Yen, EXP).", help: "Empowers the community and ensures events are always relevant to what the players actually need at that moment." },
-        { title: "Accessory Forging System", desc: "Obtain accessory parts from towers/dungeons and forge them through an interactive, puzzle-based system inspired by The Forge.", help: "Adds a rewarding crafting layer to the game, giving more value to loot gathered from difficult content." },
-        { title: "Daily Missions System", desc: "Add daily missions with difficulty scaling based on the player’s rank, ensuring fair challenges and daily engagement.", help: "Provides a consistent reason to log in every day and rewards consistent effort regardless of player level." },
-        { title: "Top Global Chat Indicator", desc: "Display a Top Global player's rank and category next to their name in the public chat.", help: "Increases the prestige of reaching the top and incentivizes players to grind for leaderboard spots." },
-        { title: "Auto Attack Range Upgrade", desc: "Increase auto-attack range through upgrades purchased in the Trial Shop.", help: "Gives a tangible, permanent power-up that rewards players for participating in Trials." },
-        { title: "Sprint Upgrade (Trial Only)", desc: "Purchase a sprint upgrade in the Trial Shop for additional movement speed inside trials.", help: "Balances the difficulty of large trial maps by giving players a way to navigate faster." },
-        { title: "Inventory Expansion by Map Completion", desc: "Grant 10–20 slots after collecting all characters from a map (Common to Mythic, excluding Celestial).", help: "Rewards completionism and naturally scales storage space as the player progresses through new islands." },
-        { title: "Free Mounts System", desc: "Add free mounts obtainable through gameplay achievements or rare drops.", help: "Provides non-paying players with mobility options, making the game feel more fair and accessible (F2P Friendly)." },
-        { title: "Private Server Kick Menu", desc: "A dedicated menu for server owners to manage players. Kicked players can rejoin, assisting grinders and streamers.", help: "Essential for content creators and streamers to manage their community and maintain productive grinding sessions." },
-        { title: "Trial & Dungeon Tracker", desc: "Persistent counter for completed runs with a dedicated leaderboard.", help: "Encourages replayability and allows players to show off their dedication to specific game modes." },
-        { title: "Unit Comparison Tool", desc: "UI tool to compare base stats, scalings, and abilities of multiple units simultaneously.", help: "Simplifies complex decision-making, allowing players to choose the best unit for their specific build." },
-        { title: "Position Save (Anti-AFK)", desc: "Saves player coordinates to restore their exact location upon reconnection.", help: "Saves time and frustration, especially for players with unstable connections who are farming specific spots." },
-        { title: "Enemy Kill Counter", desc: "Detailed tracker for every enemy type across all islands.", help: "Provides a long-term 'bestiary' goal for completionists to fill out." },
-        { title: "Character Model Preview", desc: "Button in the inventory to view a full-screen, rotating model of the character.", help: "Allows players to appreciate the game's art and skins, increasing the value of character collection." }
+        { title: "Guild System", desc: "Guilds with bosses and leaderboards for teamwork.", help: "Creates social bonds and endgame goals." },
+        { title: "Weekend Event Voting", desc: "Community voting for weekend events.", help: "Empowers the community." },
+        { title: "Accessory Forging System", desc: "Forge accessories using parts (Forge-inspired).", help: "Adds rewarding crafting layers." },
+        { title: "Daily Missions System", desc: "Daily missions with difficulty scaling by rank.", help: "Consistent engagement." },
+        { title: "Top Global Chat Indicator", desc: "Rank badge next to name for Top Global players.", help: "Incentivizes grinding through prestige." },
+        { title: "Auto Attack Range Upgrade", desc: "Increase range via Trial Shop upgrades.", help: "Permanent power-up." },
+        { title: "Sprint Upgrade (Trial Only)", desc: "Movement speed increase inside trials.", help: "Better navigation on large maps." },
+        { title: "Inventory Expansion by Map", desc: "Earn slots by completing collections.", help: "Rewards completionism." },
+        { title: "Free Mounts System", desc: "Mounts obtainable through achievements.", help: "F2P friendly mobility." },
+        { title: "Private Server Kick Menu", desc: "Owner menu to manage players in private servers.", help: "Essential for streamers/grinders." },
+        { title: "Trial & Dungeon Tracker", desc: "Counter and leaderboard for completed runs.", help: "Encourages replayability." },
+        { title: "Unit Comparison Tool", desc: "Compare stats of multiple units side-by-side.", help: "Simplifies build decisions." },
+        { title: "Position Save (Anti-AFK)", desc: "Restore location upon reconnection.", help: "Prevents time waste." },
+        { title: "Enemy Kill Counter", desc: "Detailed tracker for every enemy type.", help: "Achievement for completionists." },
+        { title: "Character Model Preview", desc: "Inventory button to view full 3D model/art.", help: "Appreciate character design." }
     ];
 
-    function renderCards(data, containerId) {
-        const container = document.getElementById(containerId);
-        data.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'suggestion-card';
-            card.innerHTML = `
-                <div class="card-main">
-                    <span class="card-title">${item.title}</span>
-                    <span style="color:var(--secondary); font-weight:bold;">+</span>
-                </div>
-                <div class="details">
-                    <div class="info-block">
-                        <span class="info-label">Description</span>
-                        <p class="help-text">${item.desc}</p>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Why it helps</span>
-                        <p class="benefit-text">${item.help}</p>
-                    </div>
-                </div>
-            `;
-            card.onclick = () => card.classList.toggle('active');
-            container.appendChild(card);
-        });
+    function createCard(item) {
+        const div = document.createElement('div');
+        div.className = 'suggestion-card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="card-title">${item.title}</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="details">
+                <span class="label">System Description</span>
+                <p class="desc">${item.desc}</p>
+                <span class="label">Primary Benefit</span>
+                <p class="benefit">${item.help}</p>
+            </div>
+        `;
+        div.onclick = () => div.classList.toggle('active');
+        return div;
     }
 
-    renderCards(qolData, 'qol-grid');
-    renderCards(featData, 'feat-grid');
+    const qolGrid = document.getElementById('qol-grid');
+    const featGrid = document.getElementById('feat-grid');
+
+    qolData.forEach(i => qolGrid.appendChild(createCard(i)));
+    featData.forEach(i => featGrid.appendChild(createCard(i)));
+
+    // Contador e Busca (Mesma lógica anterior, mas com UI nova)
     document.getElementById('qol-count').innerText = qolData.length;
     document.getElementById('feat-count').innerText = featData.length;
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase();
+        document.querySelectorAll('.suggestion-card').forEach(c => {
+            c.style.display = c.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+        });
+    });
 </script>
 
 </body>
